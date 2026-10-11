@@ -1,4 +1,4 @@
-package com.qa.pages;
+package com.qa.base;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,6 +7,9 @@ import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.events.EventFiringDecorator;
+
+import com.qa.util.WebEventListener;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -14,14 +17,13 @@ public class TestBase {
 	public static  WebDriver driver;
 	
 	public static Properties prop;
-	public  static EventFiringWebDriver e_driver;
-	public static WebEventListener eventListener;
+	
 	
 	public TestBase(){
 		try {
 			prop = new Properties();
-			FileInputStream ip = new FileInputStream(System.getProperty("user.dir")+ "/src/main/java/com/crm"
-					+ "/qa/config/config.properties");
+			FileInputStream ip = new FileInputStream(System.getProperty("user.dir")+ "/src/main/java/com/qa"
+					+ "/config/config.properties");
 			prop.load(ip);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -29,10 +31,18 @@ public class TestBase {
 			e.printStackTrace();
 		}
 	}
-	public void initialzation() {
+	public static void initialization() {
 	WebDriverManager.chromedriver().setup();
+	// 1. Create the original ChromeDriver instance
 	 driver = new ChromeDriver();
+	    // 2. Instantiate the listener
+	    WebEventListener listener = new WebEventListener();
+
+	    // 3. Wrap originalDriver into the decorated driver
+	    driver = new EventFiringDecorator<>(listener).decorate(driver);
 	 driver.manage().window().maximize();
-	driver.get("https://www.saucedemo.com/");
+	driver.get(prop.getProperty("url"));
 	}
+
 }
+

@@ -2,6 +2,9 @@
 
 <suite name="Suite">
   <test thread-count="5" name="Test">
+    <listeners>
+        <listener class-name="com.qa.extendreport.ExtentReporterNG" />
+    </listeners>
    <classes>
             <class name="com.qa.testcase.LoginPageTest"/>
         </classes>

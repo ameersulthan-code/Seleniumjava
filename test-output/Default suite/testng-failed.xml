@@ -5,9 +5,9 @@
     <classes>
       <class name="com.qa.testcase.LoginPageTest">
         <methods>
-          <include name="loginPageTitle"/>
-          <include name="intializeBrowser"/>
+          <include name="verifyLoginSuccessful" invocation-numbers="1"/>
           <include name="quitBrowser"/>
+          <include name="loadBrowser"/>
         </methods>
       </class> <!-- com.qa.testcase.LoginPageTest -->
     </classes>
